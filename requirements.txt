@@ -1,0 +1,8 @@
+Django
+django-taggit
+markdown
+psycopg2
+Pillow
+wagtail
+wagtailaltgenerator
+djangorestframework
