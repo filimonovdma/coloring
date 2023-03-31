@@ -64,7 +64,7 @@ const Header = ({
           <div className="self-stretch w-[300px] shrink-0 flex flex-row py-[15px] px-0 box-border items-center justify-start gap-[15px] sm:w-[100px]">
             <nav
               className="self-stretch flex flex-row items-center justify-start gap-[12px] opacity-[0.5] cursor-pointer sm:hidden"
-              ref={spanRef}
+         //     ref={spanRef}
               onClick={openMenuopen}
             >
               <button className="cursor-pointer [border:none] p-0 bg-midnightblue relative w-5 h-0.5 shrink-0 hover:bg-red">

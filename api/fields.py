@@ -8,3 +8,19 @@ class TagField(Field):
                 ]
         except Exception:
             return []
+        
+
+
+class ImageField(Field):
+    def to_representation(self, categories):
+        try:
+            return [
+                { 
+                "name": category.blog_category.name,
+                "slug": category.blog_category.slug,
+                "id": category.blog_category.id,
+                }
+                for category in categories.all()
+                ]
+        except Exception:
+            return []

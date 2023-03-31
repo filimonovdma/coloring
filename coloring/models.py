@@ -17,6 +17,12 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.core.fields import StreamField
 from .blocks import BodyBlock
+
+from wagtail.api import APIField
+from api.fields import TagField
+
+from wagtail.images.api.fields import ImageRenditionField
+
 class HomePage(Page):
     description = models.CharField(max_length=255, blank=True,)
     content_panels = Page.content_panels + [FieldPanel("description", classname="full")]
@@ -31,15 +37,23 @@ class ColoringPage(Page):
         on_delete=models.SET_NULL,
         related_name="+",
         )
-    tags = ClusterTaggableManager(through="ColoringPageTag", blank=True)
+    tags = ClusterTaggableManager(through='ColoringPageTag', blank=True)
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
         StreamFieldPanel('body'),
         FieldPanel('tags'),
-        InlinePanel("categories", label="category"),
+        InlinePanel('categories', label='category'),
 
         ]
+    
+    api_fields =(
+        APIField("header_image_url",
+                 serializer=ImageRenditionField("max-1000x800", source="header_image"),
+                 ),
+        APIField('api_tags', serializer=TagField(source='tags')),
+    )
+
 class PostPageColoringCategory(models.Model):
     page = ParentalKey(
         "ColoringPage",
