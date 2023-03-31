@@ -15,12 +15,15 @@ from wagtail.core.models import Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
+from wagtail.core.fields import StreamField
+from .blocks import BodyBlock
 class HomePage(Page):
     description = models.CharField(max_length=255, blank=True,)
     content_panels = Page.content_panels + [FieldPanel("description", classname="full")]
 
 class ColoringPage(Page):
-    body = models.CharField(max_length=255, blank=True,)
+
+    body = StreamField(BodyBlock(), blank=True)
     header_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -32,9 +35,10 @@ class ColoringPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
-        FieldPanel('body'),
+        StreamFieldPanel('body'),
         FieldPanel('tags'),
         InlinePanel("categories", label="category"),
+
         ]
 class PostPageColoringCategory(models.Model):
     page = ParentalKey(
