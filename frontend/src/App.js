@@ -7,6 +7,7 @@ import {
 import Singel from "./pages/Singel";
 import Category from "./pages/Category";
 import Component from "./pages/Component";
+import Dima from './pages/dima';
 import { useEffect } from "react";
 
 function App() {
@@ -55,9 +56,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Singel />} />
+      <Route path="*" element={<Singel />} />
       <Route path="/category" element={<Category />} />
       <Route path="/span" element={<Component />} />
+      <Route path="/1" element={<Dima />}/>
     </Routes>
   );
 }
