@@ -56,10 +56,10 @@ function App() {
 
   return (
     <Routes>
-      <Route path="*" element={<Singel />} />
+      <Route path="/" element={<Dima />} />
       <Route path="/category" element={<Category />} />
       <Route path="/span" element={<Component />} />
-      <Route path="/1" element={<Dima />}/>
+      <Route path="/category/:slug" element={<Singel />}/>
     </Routes>
   );
 }

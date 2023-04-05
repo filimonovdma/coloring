@@ -4,23 +4,35 @@ class TagField(Field):
     def to_representation(self, tags):
         try:
             return [
-                {"name": tag.name, "slug": tag.slug, "id": tag.id}for tag in tags.all()
+                {"name": tag.name, "slug": tag.slug, "id": tag.id}
+                for tag in tags.all()
                 ]
         except Exception:
             return []
         
 
 
-class ImageField(Field):
+class GradeField(Field):
+    def to_representation(self, grades):
+        try:
+            return [
+                {"name": grade.coloring_grade.name,
+                 "slug": grade.coloring_grade.slug,
+                 "id": grade.coloring_grade.id}
+                   for grade in grades.all()
+                ]
+        except Exception:
+            return []
+
+
+class CategoryField(Field):
     def to_representation(self, categories):
         try:
             return [
-                { 
-                "name": category.blog_category.name,
-                "slug": category.blog_category.slug,
-                "id": category.blog_category.id,
-                }
-                for category in categories.all()
+                {"name": categories.coloring_category.name, 
+                 "slug": categories.coloring_category.slug,
+                   "id": categories.coloring_category.id}
+                   for categories in categories.all()
                 ]
         except Exception:
             return []

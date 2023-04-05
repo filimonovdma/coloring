@@ -17,18 +17,16 @@ from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.snippets.models import register_snippet
 from wagtail.core.fields import StreamField
 from .blocks import BodyBlock
+from wagtail.fields import RichTextField
 
-from wagtail.api import APIField
-from api.fields import TagField
-
-from wagtail.images.api.fields import ImageRenditionField
 
 class HomePage(Page):
     description = models.CharField(max_length=255, blank=True,)
     content_panels = Page.content_panels + [FieldPanel("description", classname="full")]
 
-class ColoringPage(Page):
 
+class ColoringPage(Page):
+    short_description = RichTextField(blank=True, null=True)
     body = StreamField(BodyBlock(), blank=True)
     header_image = models.ForeignKey(
         "wagtailimages.Image",
@@ -41,18 +39,43 @@ class ColoringPage(Page):
 
     content_panels = Page.content_panels + [
         ImageChooserPanel('header_image'),
+        FieldPanel('short_description'),
         StreamFieldPanel('body'),
         FieldPanel('tags'),
         InlinePanel('categories', label='category'),
+        InlinePanel('grades', label='grade'),
+      ]
 
+
+class PostColoringGrade(models.Model):
+    page = ParentalKey("ColoringPage", 
+                       on_delete=models.CASCADE,
+                       related_name="grades")
+    coloring_grade = models.ForeignKey('ColoringGrade',
+                                       on_delete=models.CASCADE,
+                                       related_name='colorin_pages')
+    panels = [ SnippetChooserPanel('coloring_grade'),]
+
+    class Meta:
+        unique_together =('page', 'coloring_grade')
+
+@register_snippet
+class ColoringGrade(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, max_length=80)
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("slug"),
         ]
     
-    api_fields =(
-        APIField("header_image_url",
-                 serializer=ImageRenditionField("max-1000x800", source="header_image"),
-                 ),
-        APIField('api_tags', serializer=TagField(source='tags')),
-    )
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = "Grade"
+        verbose_name_plural = "Grades"    
+    
+    
 
 class PostPageColoringCategory(models.Model):
     page = ParentalKey(
@@ -68,8 +91,10 @@ class PostPageColoringCategory(models.Model):
     panels = [
         SnippetChooserPanel('coloring_category'),
     ]
+
     class Meta:
         unique_together =('page', 'coloring_category')
+
 @register_snippet
 class ColoringCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -83,6 +108,9 @@ class ColoringCategory(models.Model):
     class Meta:
         verbose_name = "Category"
         verbose_name_plural = "Categories"
+
+
+
 class ColoringPageTag(TaggedItemBase):
     content_object = ParentalKey("ColoringPage", related_name="coloring_page_tags")
 @register_snippet

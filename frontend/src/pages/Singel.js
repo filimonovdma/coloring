@@ -1,4 +1,5 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom"
 import Menuopen from "../components/Menuopen";
 import PortalPopup from "../components/PortalPopup";
 import { useNavigate } from "react-router-dom";
@@ -36,6 +37,19 @@ const Singel = () => {
     navigate("/span");
   }, [navigate]);
 
+  let {slug} = useParams();
+  const [coloring, setColorings] = useState([])
+    const fetchData = async () => {
+    const response = await fetch("http://localhost:8000/api/posts/"+slug)
+    const data = await response.json()
+    setColorings(data)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+
   return (
     <>
       <div className="relative box-border w-full h-[1473px] flex flex-col items-start justify-start text-left text-3xs text-steelblue font-inter border-[1px] border-solid border-black">
@@ -72,7 +86,7 @@ const Singel = () => {
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start text-[27px] text-midnightblue">
                   <p className="m-0 flex-1 relative leading-[45px] capitalize font-bold">
-                    Fitness, Physical Education Relation To Academic Performance
+                    {coloring.title}
                   </p>
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start text-sm">
@@ -172,8 +186,25 @@ const Singel = () => {
               </div>
             </div>
             <div className="self-stretch flex flex-col py-0 pr-[60px] pl-0 items-center justify-start text-smi md:pr-0 md:box-border">
-              <div className="self-stretch rounded-lg bg-white shadow-[0px_20px_30px_rgba(25,_25,_46,_0.04)] box-border h-[542px] shrink-0 border-[1px] border-solid border-whitesmoke-200" />
+            
+
+
+              
+
+              <img className="objectobject-fill  hover:bg-cyan-600 "
+            src={coloring.header_image && ('http://localhost:8000' + coloring.header_image.url)}
+            alt={coloring.header_image && coloring.header_image.alt}
+            width={coloring.header_image && coloring.header_image.width}
+            height={coloring.header_image && coloring.header_image.height}
+             />
+
+              
+              
               <div className="self-stretch rounded-lg bg-white shadow-[0px_20px_30px_rgba(25,_25,_46,_0.04)] flex flex-row p-px items-start justify-start border-[1px] border-solid border-whitesmoke-200">
+                
+                
+                
+                
                 <div className="flex-1 flex flex-col pt-0 px-[30px] pb-[30px] items-center justify-start gap-[50px]">
                   <div className="self-stretch relative bg-white box-border h-14 shrink-0 border-b-[2px] border-solid border-whitesmoke-200">
                     <div className="absolute top-[14px] left-[30px] flex flex-row pt-0 pb-[15px] pr-[3.90625px] pl-0 items-start justify-start text-blueviolet-100">
@@ -230,8 +261,8 @@ const Singel = () => {
             </div>
           </div>
           <div className="w-[337.39px] shrink-0 flex flex-col py-[116px] px-0 box-border items-center justify-start text-[21px] text-midnightblue md:items-center md:justify-center md:pt-[60px] md:pb-[60px] md:box-border">
-            <div className="self-stretch bg-white flex flex-col p-5 items-start justify-center gap-[30px]">
-              <div className="relative leading-[24px] font-medium">$50</div>
+            <div className="fixed self-stretch bg-white flex flex-col p-5 items-start justify-center gap-[30px]">
+              <div className="relative leading-[24px] font-medium">$500</div>
               <div className="relative w-[297.39px] h-[475px] shrink-0 text-mini">
                 <div className="absolute top-[0px] left-[0px] flex flex-col items-start justify-start">
                   <div className="box-border w-[297.39px] h-[50px] shrink-0 flex flex-row py-2.5 px-0 items-center justify-between border-b-[1px] border-solid border-whitesmoke-200">

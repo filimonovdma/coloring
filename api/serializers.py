@@ -1,20 +1,26 @@
 from rest_framework import serializers
-from api.fields import TagField
-from coloring.models import ColoringPage, ColoringCategory, Tag
+from api.fields import TagField, CategoryField, GradeField
+from coloring.models import ColoringPage, ColoringCategory, Tag, ColoringGrade
 from wagtail.images.api.fields import ImageRenditionField
 
 class ColoringPageSerializer(serializers.ModelSerializer):
-    api_tags = TagField(source='tags')
+    tags = TagField()
     header_image = ImageRenditionField("max-1000x800")
+    categories = CategoryField()
+    grades = GradeField()
+
     class Meta:
         model = ColoringPage
-        fields = (
-            'id',
+        fields = ( 
+            'title', 
+            'header_image',     
             'slug',
-            'title',
-            'api_tags',
-            'header_image',
+            'tags',
+            'categories',
+            'grades',
             )
+        
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ColoringCategory
@@ -26,6 +32,15 @@ class CategorySerializer(serializers.ModelSerializer):
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
+        fields = (
+            'id',
+            'slug',
+            'name',
+        )
+
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ColoringGrade
         fields = (
             'id',
             'slug',

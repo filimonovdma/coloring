@@ -1,5 +1,5 @@
 from rest_framework import routers
-from .views import CategorySet, ColoringPageSet, TagSet
+from .views import CategorySet, ColoringPageSet, TagSet, GradeSet
 
 from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail.api.v2.views import PagesAPIViewSet
@@ -11,6 +11,7 @@ coloring_router = routers.DefaultRouter()
 coloring_router.register(r"posts", ColoringPageSet)
 coloring_router.register(r"categories", CategorySet)
 coloring_router.register(r"tags", TagSet)
+coloring_router.register(r'grade', GradeSet)
 
 
 cms_api_router = WagtailAPIRouter("wagtailapi")

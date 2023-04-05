@@ -55,8 +55,9 @@ const Header = ({
   }, []);
 
   return (
-    <nav
-      className="self-stretch bg-white flex flex-col items-start justify-start [&.animate]:animate-[0.25s_ease_0s_1_normal_forwards_slide-in-top] opacity-[0] border-b-[1px] border-solid border-gray-200"
+    <dev
+      className="self-stretch bg-red flex flex-col items-start justify-start 
+      [&.animate]:animate-[0.25s_ease_0s_1_normal_forwards_slide-in-top] opacity-[0] border-b-[1px] border-solid border-gray-200"
       data-animate-on-scroll
     >
       <section className="self-stretch bg-white flex flex-col py-[5px] px-0 items-start justify-start">
@@ -142,7 +143,7 @@ const Header = ({
           </div>
         </div>
       </section>
-    </nav>
+    </dev>
   );
 };
 
