@@ -12,7 +12,7 @@ urlpatterns = [
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     path('api/', include(coloring_router.urls)),
-    path('api/v2/', cms_api_router.urls),
+    path('api2/', cms_api_router.urls),
 # For anything not caught by a more specific rule above, hand over to
 # Wagtail's serving mechanism
     re_path(r'', include(wagtail_urls)),

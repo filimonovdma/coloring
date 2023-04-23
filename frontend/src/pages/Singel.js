@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Search from "../components/Search";
 import Header from "../components/Header";
 import CourseCard from "../components/CourseCard";
+import React from 'react';
+import { sanitize } from 'dompurify';
 
 const Singel = () => {
   const spanRef = useRef(null);
@@ -38,9 +40,11 @@ const Singel = () => {
   }, [navigate]);
 
   let {slug} = useParams();
+  
   const [coloring, setColorings] = useState([])
+    
     const fetchData = async () => {
-    const response = await fetch("http://localhost:8000/api/posts/"+slug)
+    const response = await fetch("http://localhost:8000/api2/pages/"+slug)
     const data = await response.json()
     setColorings(data)
   }
@@ -48,6 +52,8 @@ const Singel = () => {
   useEffect(() => {
     fetchData()
   }, []);
+
+  
 
 
   return (
@@ -91,8 +97,11 @@ const Singel = () => {
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start text-sm">
                   <span className="flex-1 relative leading-[27px]">
-                    Sed ut perspiciatis unde omnis iste natus error sit
-                    voluptatem accusantium doloremque laudantium.
+
+                    <div dangerouslySetInnerHTML= {{ __html: `${sanitize(coloring.short_description)}` }} />
+             
+                    
+                    
                   </span>
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start gap-[33.8px] text-base">
@@ -188,14 +197,14 @@ const Singel = () => {
             <div className="self-stretch flex flex-col py-0 pr-[60px] pl-0 items-center justify-start text-smi md:pr-0 md:box-border">
             
 
-
+            
               
 
               <img className="objectobject-fill  hover:bg-cyan-600 "
-            src={coloring.header_image && ('http://localhost:8000' + coloring.header_image.url)}
-            alt={coloring.header_image && coloring.header_image.alt}
-            width={coloring.header_image && coloring.header_image.width}
-            height={coloring.header_image && coloring.header_image.height}
+            src={coloring.header_image_url && ('http://localhost:8000' + coloring.header_image_url.url)}
+            alt={coloring.header_image_url && coloring.header_image_url.alt}
+            width={coloring.header_image_url && coloring.header_image_url.width}
+            height={coloring.header_image_url && coloring.header_image_url.height}
              />
 
               
@@ -210,7 +219,7 @@ const Singel = () => {
                     <div className="absolute top-[14px] left-[30px] flex flex-row pt-0 pb-[15px] pr-[3.90625px] pl-0 items-start justify-start text-blueviolet-100">
                       <div className="absolute my-0 mx-[!important] top-[40px] left-[0px] bg-blueviolet-100 w-[61.91px] h-0.5 shrink-0 z-[0]" />
                       <div className="relative leading-[27px] z-[1]">
-                        Overview
+                        Описание
                       </div>
                     </div>
                     <div className="absolute top-[14px] left-[129.91px] flex flex-row pt-0 pb-[15px] pr-[3.078125px] pl-0 items-start justify-start text-sm">
@@ -231,30 +240,12 @@ const Singel = () => {
                     <div className="relative text-[18px] leading-[27.2px] font-medium text-midnightblue">
                       Course Overview
                     </div>
-                    <p className="m-0 self-stretch relative text-sm leading-[26px] font-light">
-                      At vero eos et accusamus et iusto odio dignissimos ducimus
-                      qui blanditiis praesentium voluptatum deleniti atque
-                      corrupti quos dolores et quas molestias excepturi sint
-                      occaecati cupiditate non provident, similique sunt in
-                      culpa qui officia deserunt mollitia animi, id est laborum
-                      et dolorum fuga. Et harum quidem rerum facilis est et
-                      expedita distinctio.
-                    </p>
-                    <span className="self-stretch relative leading-[26px] font-light">
-                      Aperiam, eaque ipsa quae ab illo inventore veritatis et
-                      quasi architecto. Sam voluptatem quia voluptas sit
-                      aspernatur aut odit aut fugit, sed quia consequuntur magni
-                      dolores eos qui ratione voluptatem sequi nesciunt.
-                    </span>
-                    <span className="self-stretch relative leading-[26px] font-light">
-                      Sed ut perspiciatis unde omnis iste natus error sit
-                      voluptatem accusantium doloremque laudantium, totam rem
-                      aperiam, eaque ipsa quae ab illo inventore veritatis et
-                      quasi architecto beatae vitae dicta sunt explicabo. Nemo
-                      enim ipsam voluptatem quia voluptas sit aspernatur aut
-                      odit aut fugit, sed quia consequuntur magni dolores eos
-                      qui ratione voluptatem sequi.
-                    </span>
+
+                  
+                    
+
+
+
                   </div>
                 </div>
               </div>
@@ -262,7 +253,7 @@ const Singel = () => {
           </div>
           <div className="w-[337.39px] shrink-0 flex flex-col py-[116px] px-0 box-border items-center justify-start text-[21px] text-midnightblue md:items-center md:justify-center md:pt-[60px] md:pb-[60px] md:box-border">
             <div className="fixed self-stretch bg-white flex flex-col p-5 items-start justify-center gap-[30px]">
-              <div className="relative leading-[24px] font-medium">$500</div>
+              <div className="relative leading-[24px] font-medium">500 р</div>
               <div className="relative w-[297.39px] h-[475px] shrink-0 text-mini">
                 <div className="absolute top-[0px] left-[0px] flex flex-col items-start justify-start">
                   <div className="box-border w-[297.39px] h-[50px] shrink-0 flex flex-row py-2.5 px-0 items-center justify-between border-b-[1px] border-solid border-whitesmoke-200">

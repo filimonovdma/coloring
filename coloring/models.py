@@ -18,6 +18,9 @@ from wagtail.snippets.models import register_snippet
 from wagtail.core.fields import StreamField
 from .blocks import BodyBlock
 from wagtail.fields import RichTextField
+from wagtail.images.api.fields import ImageRenditionField
+from wagtail.api import APIField
+from api.fields import TagField
 
 
 class HomePage(Page):
@@ -45,6 +48,18 @@ class ColoringPage(Page):
         InlinePanel('categories', label='category'),
         InlinePanel('grades', label='grade'),
       ]
+    
+    api_fields = (
+        APIField("header_image_url",
+                 serializer=ImageRenditionField("max-1000x800", source="header_image"),
+                ),
+                "body",
+                'short_description',
+               # APIField("owner"),
+                APIField("api_tags", serializer=TagField(source="tags")),
+                #APIField("pub_date", serializer=DateTimeField(format="%d %B %Y", source="last_published_at"),
+                     #    ),
+                )
 
 
 class PostColoringGrade(models.Model):
